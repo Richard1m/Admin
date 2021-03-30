@@ -1,0 +1,77 @@
+{
+  "name": "admin-lte",
+  "description": "Responsive open source admin dashboard and control panel.",
+  "version": "4.0.0-alpha.1",
+  "license": "MIT",
+  "author": "Colorlib <https://colorlib.com>",
+  "main": "dist/js/adminlte.min.js",
+  "scripts": {
+    "bundlewatch": "bundlewatch --config .bundlewatch.config.json",
+    "css": "npm-run-all css-compile css-prefix css-minify",
+    "css-compile": "sass --load-path=node_modules build/scss:dist/css",
+    "css-prefix": "postcss --config build/config/postcss.config.js --replace \"dist/css/*.css\" \"!dist/css/*.min.css\"",
+    "css-minify-bash": "cleancss -O1 --format breakWith=lf --with-rebase --source-map --source-map-inline-sources --output ",
+    "css-minify": "npm run css-minify-bash -- dist/css/ --batch --batch-suffix \".min\" \"dist/css/*.css\" \"!dist/css/*.min.css\"",
+    "css-lint": "stylelint \"build/scss/**/*.scss\" --cache --cache-location .cache/.stylelintcache",
+    "css-lint-fix": "stylelint --fix \"build/scss/**/*.scss\" --cache --cache-location .cache/.stylelintcache",
+    "dev": "npm-run-all --parallel watch sync",
+    "docs": "npm-run-all echo will come soon",
+    "js": "node build/config/esbuild.config.js",
+    "js-lint": "eslint --ext=js,ts --cache --cache-location .cache/.eslintcache --report-unused-disable-directives .",
+    "lint": "npm-run-all --continue-on-error --parallel css-lint js-lint",
+    "compile": "npm-run-all css js",
+    "sync": "browser-sync start --server --files *.html pages/ dist/",
+    "watch": "concurrently \"npm:watch-js\" \"npm:watch-css\"",
+    "watch-css": "nodemon --watch build/scss -e scss -x \"npm-run-all css-lint css\"",
+    "watch-js": "nodemon --watch build/ts -e ts -x \"npm-run-all js-lint js\""
+  },
+  "keywords": [
+    "css",
+    "sass",
+    "responsive",
+    "admin",
+    "template",
+    "theme",
+    "framework",
+    "control-panel",
+    "dashboard"
+  ],
+  "homepage": "https://adminlte.io",
+  "style": "dist/css/adminlte.css",
+  "sass": "build/scss/adminlte.scss",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ColorlibHQ/AdminLTE.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ColorlibHQ/AdminLTE/issues"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.9.1",
+    "bootstrap": "^5.0.0-beta3",
+    "bootstrap-icons": "^1.4.0",
+    "vanillajs-datepicker": "^1.1.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "browser-sync": "^2.26.14",
+    "bundlewatch": "^0.3.2",
+    "clean-css-cli": "^5.2.2",
+    "concurrently": "^6.0.0",
+    "esbuild": "^0.9.6",
+    "eslint": "^7.22.0",
+    "eslint-config-xo": "^0.35.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-unicorn": "^29.0.0",
+    "lockfile-lint": "^4.6.2",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.2.8",
+    "postcss-cli": "^8.3.1",
+    "sass": "^1.32.8",
+    "stylelint": "^13.12.0",
+    "stylelint-config-twbs-bootstrap": "^2.1.0",
+    "terser": "^5.6.1",
+    "vnu-jar": "^21.2.5"
+  }
+}
